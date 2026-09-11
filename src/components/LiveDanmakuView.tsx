@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, Maximize2, Smile, Send, Heart } from 'lucide-react';
+import { ChevronLeft, Maximize2, Smile, Send, Heart, Camera, ChevronRight } from 'lucide-react';
 import { SongItem, DanmakuMessage } from '../types';
 import { StatusBar } from './StatusBar';
 import { concertLiveBg } from '../data/mockData';
@@ -28,7 +28,24 @@ export const LiveDanmakuView: React.FC<LiveDanmakuViewProps> = ({
 }) => {
   const [inputText, setInputText] = useState('');
   const [hearts, setHearts] = useState<FloatingHeart[]>([]);
+  const [bgImageIndex, setBgImageIndex] = useState(0);
   const danmakuContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const images =
+    currentSong.images && currentSong.images.length > 0
+      ? currentSong.images
+      : [currentSong.coverImg || concertLiveBg];
+
+  // Auto cycle through background carousel photos in live stage too
+  useEffect(() => {
+    let interval: number;
+    if (images.length > 1) {
+      interval = window.setInterval(() => {
+        setBgImageIndex((prev) => (prev + 1) % images.length);
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   // Auto-spawn ambient floating hearts
   useEffect(() => {
@@ -72,18 +89,21 @@ export const LiveDanmakuView: React.FC<LiveDanmakuViewProps> = ({
     spawnHeart(25);
   };
 
+  const activeLiveBg = images[bgImageIndex] || concertLiveBg;
+
   return (
     <div
       onClick={handleStageClick}
       className="relative w-full h-full flex flex-col justify-between p-5 select-none text-white overflow-hidden bg-black"
     >
-      {/* Background Live Concert Photo */}
+      {/* Background Live Concert Photo Carousel */}
       <div className="absolute inset-0 z-0">
         <img
-          src={concertLiveBg}
+          key={activeLiveBg}
+          src={activeLiveBg}
           alt="Concert Live Stage"
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover object-center scale-105 filter brightness-95"
+          className="w-full h-full object-cover object-center scale-105 filter brightness-95 transition-all duration-1000 animate-in fade-in"
         />
         {/* Subtle purple gradient overlays for contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/60 pointer-events-none" />
@@ -121,12 +141,28 @@ export const LiveDanmakuView: React.FC<LiveDanmakuViewProps> = ({
             <ChevronLeft className="w-5 h-5" />
           </button>
 
-          {/* Live Date Pill & Fullscreen */}
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-xs font-medium text-white/90">
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-            <span>Live · 8.16</span>
-            <span className="text-white/30">|</span>
-            <Maximize2 className="w-3 h-3 text-white/70" />
+          {/* Live Date Pill & Photo Carousel Indicator */}
+          <div className="flex items-center space-x-2">
+            {images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => setBgImageIndex((prev) => (prev + 1) % images.length)}
+                className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-black/50 border border-white/10 backdrop-blur-md text-[10px] text-white/90 hover:bg-purple-900/50 transition-colors"
+                title="切换现场照片"
+              >
+                <Camera className="w-3 h-3 text-purple-300" />
+                <span>
+                  {bgImageIndex + 1}/{images.length}
+                </span>
+              </button>
+            )}
+
+            <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-xs font-medium text-white/90">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+              <span>Live · {currentSong.date}</span>
+              <span className="text-white/30">|</span>
+              <Maximize2 className="w-3 h-3 text-white/70" />
+            </div>
           </div>
         </div>
       </div>

@@ -22,6 +22,8 @@ interface OverviewShowcaseProps {
   onSendDanmaku: (text: string) => void;
   onSwitchToMobilePhone: (tab: 'player' | 'live' | 'playlist') => void;
   onAddSong?: () => void;
+  onOpenEdit?: () => void;
+  onEditSong?: (song: SongItem) => void;
 }
 
 export const OverviewShowcase: React.FC<OverviewShowcaseProps> = ({
@@ -41,6 +43,8 @@ export const OverviewShowcase: React.FC<OverviewShowcaseProps> = ({
   onSendDanmaku,
   onSwitchToMobilePhone,
   onAddSong,
+  onOpenEdit,
+  onEditSong,
 }) => {
   return (
     <div className="w-full max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -63,12 +67,13 @@ export const OverviewShowcase: React.FC<OverviewShowcaseProps> = ({
                 onSeek={onSeek}
                 onGoToLive={() => onSwitchToMobilePhone('live')}
                 onOpenPlaylist={() => onSwitchToMobilePhone('playlist')}
+                onOpenEdit={onOpenEdit}
               />
             </div>
           </div>
           <p className="text-xs text-white/50 mt-3 font-medium flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-            <span>主播放器 · 现场记忆手账</span>
+            <span>主播放器 · 轮播相册与现场手账</span>
           </p>
         </div>
 
@@ -102,10 +107,11 @@ export const OverviewShowcase: React.FC<OverviewShowcaseProps> = ({
               onSelectSong={onSelectSong}
               onTogglePlay={onTogglePlay}
               onAddSong={onAddSong}
+              onEditSong={onEditSong}
             />
             <p className="text-xs text-white/50 mt-2 font-medium flex items-center gap-1.5 pl-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-              <span>现场歌单列表</span>
+              <span>现场歌单列表 (支持逐曲编辑)</span>
             </p>
           </div>
 

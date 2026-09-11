@@ -27,6 +27,8 @@ interface MobileFrameProps {
   onOpenDanmakuModal: () => void;
   onCloseDanmakuModal: () => void;
   onAddSong?: () => void;
+  onOpenEdit?: () => void;
+  onEditSong?: (song: SongItem) => void;
 }
 
 export const MobileFrame: React.FC<MobileFrameProps> = ({
@@ -50,6 +52,8 @@ export const MobileFrame: React.FC<MobileFrameProps> = ({
   onOpenDanmakuModal,
   onCloseDanmakuModal,
   onAddSong,
+  onOpenEdit,
+  onEditSong,
 }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full my-auto py-2">
@@ -71,6 +75,7 @@ export const MobileFrame: React.FC<MobileFrameProps> = ({
               onSeek={onSeek}
               onGoToLive={() => onChangeTab('live')}
               onOpenPlaylist={() => onChangeTab('playlist')}
+              onOpenEdit={onOpenEdit}
             />
           )}
 
@@ -96,6 +101,7 @@ export const MobileFrame: React.FC<MobileFrameProps> = ({
                 }}
                 onTogglePlay={onTogglePlay}
                 onAddSong={onAddSong}
+                onEditSong={onEditSong}
                 className="my-auto"
               />
 

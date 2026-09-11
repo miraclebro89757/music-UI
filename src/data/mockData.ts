@@ -2,7 +2,42 @@ import { SongItem, DanmakuMessage } from '../types';
 import nightWeMetCover from '../assets/images/album_night_we_met_1789098894760.jpg';
 import concertLiveBg from '../assets/images/concert_live_stage_1789098877222.jpg';
 
-export { concertLiveBg };
+export { concertLiveBg, nightWeMetCover };
+
+export const PRESET_CONCERT_PHOTOS = [
+  {
+    name: '紫色舞台追光与烟雾',
+    url: concertLiveBg,
+  },
+  {
+    name: '万人紫海大合唱',
+    url: nightWeMetCover,
+  },
+  {
+    name: '摇滚舞台热烈声场',
+    url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    name: '夜空荧光手环星海',
+    url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    name: '主唱前排特写光影',
+    url: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    name: '体育场顶棚激光交织',
+    url: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    name: '人群欢呼举手剪影',
+    url: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    name: '音乐节晚霞与暗紫',
+    url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1000&auto=format&fit=crop',
+  },
+];
 
 export const SONGS: SongItem[] = [
   {
@@ -15,6 +50,12 @@ export const SONGS: SongItem[] = [
     venue: 'Madison Square Garden',
     date: '2025.08.16',
     coverImg: nightWeMetCover,
+    images: [
+      nightWeMetCover,
+      concertLiveBg,
+      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1000&auto=format&fit=crop',
+    ],
     notes: '万人紫海大合唱，主唱声线一出全场静谧又热烈，那是属于纽约夏夜最难忘的共振。',
   },
   {
@@ -27,6 +68,11 @@ export const SONGS: SongItem[] = [
     venue: 'Wembley Stadium',
     date: '2025.06.18',
     coverImg: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop',
+      concertLiveBg,
+      'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1000&auto=format&fit=crop',
+    ],
     notes: '爆裂的失真吉他与全场观众的呐喊，黑白复古声场直接把红温气氛顶到天花板。',
   },
   {
@@ -39,6 +85,12 @@ export const SONGS: SongItem[] = [
     venue: 'Tokyo Dome',
     date: '2025.01.26',
     coverImg: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
+      concertLiveBg,
+      nightWeMetCover,
+      'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1000&auto=format&fit=crop',
+    ],
     notes: '五万只可回收发光手环在夜空中幻化为紫色与金色星云，美到令人屏息。',
   },
 ];

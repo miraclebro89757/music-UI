@@ -18,6 +18,7 @@ export interface SongItem {
   venue: string;
   date: string;
   coverImg: string;
+  images?: string[]; // Carousel images for playback, up to 20 images
   notes?: string;
 }
 

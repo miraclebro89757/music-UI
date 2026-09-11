@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, MoreHorizontal, Pause, Play, Music, Sparkles } from 'lucide-react';
+import { Plus, Edit3, Pause, Play, Camera } from 'lucide-react';
 import { SongItem } from '../types';
 
 interface PlaylistViewProps {
@@ -9,6 +9,7 @@ interface PlaylistViewProps {
   onSelectSong: (song: SongItem) => void;
   onTogglePlay: () => void;
   onAddSong?: () => void;
+  onEditSong?: (song: SongItem) => void;
   className?: string;
 }
 
@@ -19,6 +20,7 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({
   onSelectSong,
   onTogglePlay,
   onAddSong,
+  onEditSong,
   className = '',
 }) => {
   return (
@@ -29,13 +31,13 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-base font-bold tracking-tight text-white">我的歌单</h2>
-          <p className="text-[11px] text-white/40">Concert · {songs.length}</p>
+          <p className="text-[11px] text-white/40">Concert · {songs.length} 首现场音轨</p>
         </div>
 
         <button
           onClick={onAddSong}
           className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition-colors cursor-pointer active:scale-95"
-          title="添加演唱会音乐"
+          title="添加演唱会音乐 (本地上传 / Wi-Fi 导入)"
         >
           <Plus className="w-4 h-4" />
         </button>
@@ -45,12 +47,13 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({
       <div className="space-y-2.5">
         {songs.map((song) => {
           const isCurrent = song.id === currentSongId;
+          const photoCount = song.images?.length || 1;
 
           return (
             <div
               key={song.id}
               onClick={() => onSelectSong(song)}
-              className={`w-full p-2.5 rounded-2xl flex items-center justify-between transition-all cursor-pointer border ${
+              className={`w-full p-2.5 rounded-2xl flex items-center justify-between transition-all cursor-pointer border group ${
                 isCurrent
                   ? 'bg-purple-600/20 border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.25)]'
                   : 'bg-white/[0.03] hover:bg-white/[0.07] border-white/[0.06]'
@@ -85,35 +88,47 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({
                   )}
                 </div>
 
-                {/* Title & Artist */}
+                {/* Title, Artist, & Photo badge */}
                 <div className="min-w-0 text-left">
-                  <p
-                    className={`text-xs sm:text-sm font-semibold truncate ${
-                      isCurrent ? 'text-white' : 'text-white/90'
-                    }`}
-                  >
-                    {song.title}
-                  </p>
+                  <div className="flex items-center space-x-1.5">
+                    <p
+                      className={`text-xs sm:text-sm font-semibold truncate ${
+                        isCurrent ? 'text-white' : 'text-white/90'
+                      }`}
+                    >
+                      {song.title}
+                    </p>
+                    {photoCount > 1 && (
+                      <span className="px-1.5 py-0.2 rounded-md bg-purple-500/20 border border-purple-500/30 text-[9px] text-purple-300 font-mono flex items-center gap-0.5 shrink-0">
+                        <Camera className="w-2.5 h-2.5" />
+                        {photoCount}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-[11px] text-white/50 truncate mt-0.5">
-                    {song.artist}
+                    {song.artist} · <span className="text-white/40">{song.venue}</span>
                   </p>
                 </div>
               </div>
 
-              {/* Right Duration & Menu */}
+              {/* Right Duration & Edit Action */}
               <div className="flex items-center space-x-2 shrink-0 pl-2">
                 <span className="text-xs font-mono text-white/40">
                   {song.durationStr}
                 </span>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="p-1 rounded-full text-white/40 hover:text-white transition-colors"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </button>
+                {onEditSong && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEditSong(song);
+                    }}
+                    className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-purple-600/30 text-white/40 hover:text-purple-200 border border-white/[0.06] hover:border-purple-500/40 transition-colors"
+                    title="编辑此曲现场信息与轮播相册"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
           );
