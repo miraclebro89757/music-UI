@@ -1,0 +1,6 @@
+{
+  "name": "Concert Player",
+  "description": "极简毛玻璃风格的本地演唱会音乐播放器与弹幕互动平台",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
